@@ -1,53 +1,41 @@
 # Import Library
 import sys # system library for getting the command line argument
-import http.client # web library
-import os
 import requests
 import subprocess
-import atexit
-import time
+from discord_webhook import DiscordWebhook, DiscordEmbed
 
-def getTasks(name):
-    r = os.popen('tasklist /v').read().strip().split('\n')
-    # print ('# of tasks is %s' % (len(r)))
-    for i in range(len(r)):
-        s = r[i]
-        if name in r[i]:
-            # print ('%s in r[i]' %(name))
-            return r[i]
-    return []
+webhook_url = "https://discordapp.com/api/webhooks/703937050713522197/S_SICnyjQeZvvVl9YidyTRT-VF_CcmHGWY7jpDE6LMkncpzHKfWvvQDTwpfZt1alSNfe"
 
-def send_message(message):
-    webhookurl = "https://discordapp.com/api/webhooks/703937050713522197/S_SICnyjQeZvvVl9YidyTRT-VF_CcmHGWY7jpDE6LMkncpzHKfWvvQDTwpfZt1alSNfe" # your webhook URL
- 
-    # compile the form data (BOUNDARY can be anything)
-    formdata = "------:::BOUNDARY:::\r\nContent-Disposition: form-data; name=\"content\"\r\n\r\n" + message + "\r\n------:::BOUNDARY:::--"
-  
-    # get the connection and make the request
-    connection = http.client.HTTPSConnection("discordapp.com")
-    connection.request("POST", webhookurl, formdata, {
-        'content-type': "multipart/form-data; boundary=----:::BOUNDARY:::",
-        'cache-control': "no-cache",
-        })
+port = str(25565) # your port forwarding
+ip_public = requests.get('http://ip.42.pl/raw').text # get ip public
+address = ip_public+":"+port
 
-    # get the response
-    response = connection.getresponse()
-    result = response.read()
+# send online status 
+def server_run_status(webhook_url):
+    webhook = DiscordWebhook(webhook_url)
+    embed = DiscordEmbed(title='Server Status', description='Server is online!', color=242424)
+    embed.set_thumbnail(url='https://cdn.icon-icons.com/icons2/894/PNG/512/Tick_Mark_Circle_icon-icons.com_69145.png')
+    embed.set_timestamp()
+    embed.add_embed_field(name='Address', value=address)
+    webhook.add_embed(embed)
+    response = webhook.execute()
 
-    # return back to the calling function with the result
-    return result.decode("utf-8")
-    
-# get ip public with port
-ip_public = requests.get('http://ip.42.pl/raw').text+":25565"
+# send offline status
+def server_offline_status(webhook_url):
+    webhook = DiscordWebhook(webhook_url)
+    embed = DiscordEmbed(title='Server Status', description='Server is offline!', color=242424)
+    embed.set_thumbnail(url='https://cdn.icon-icons.com/icons2/894/PNG/512/Close_Icon_Circle_icon-icons.com_69142.png')
+    embed.set_timestamp()
+    webhook.add_embed(embed)
+    response = webhook.execute()
 
-# send message
-text = "**Minecraft Server sedang berjalan pada alamat berikut : `"+ip_public+"`**"
+# run server.jar
+proc = subprocess.Popen([r'start.bat'], creationflags=subprocess.CREATE_NEW_CONSOLE)
 
-send_message(text)
+# if process is terminante then send online status to webhhook
+if(proc.poll() == None):
+    server_run_status(webhook_url)
 
-# run server
-proc = subprocess.Popen([r'start.bat'])
-
-# run_condition = getTasks('java.exe') and getTasks('conhost.exe') and getTasks('cmd.exe')
-
-# send_message("**Server Offline**")
+# wait until server is offline then send offline status to webhook
+proc.wait()
+server_offline_status(webhook_url)
