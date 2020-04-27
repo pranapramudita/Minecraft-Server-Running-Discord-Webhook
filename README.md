@@ -12,6 +12,6 @@ This thing is usefull to tell user that :
 
 ### How to use :
 1. open `.py` file and edit the webhook url to your webhook url
-2. convert `.py` to `.exe` file, you can use (auto-py-to-exe)[https://pypi.org/project/auto-py-to-exe/] for example
+2. convert `.py` to `.exe` file, you can use [auto-py-to-exe](https://pypi.org/project/auto-py-to-exe/) for example
 3. put the `.exe` file to same folder as `server.jar` and `server.bat` folder
 4. run the `.exe`
