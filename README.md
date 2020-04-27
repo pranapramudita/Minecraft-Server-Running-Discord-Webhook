@@ -3,7 +3,7 @@
 So basically, this thing only run the `server.jar` on [Minecraft: Java Edition Server](https://www.minecraft.net/en-us/download/server/), and sending the webhook.
 
 example of use: <br/>
-![example use](https://github.com/pranapramudita/Minecraft-Server-Running-Webhook/blob/master/example%20use.JPG?raw=true)
+![example of use]()
 
 This thing is usefull to tell user that : 
 1. Server is running 
