@@ -8,3 +8,7 @@ example of use: <br/>
 This thing is usefull to tell user that : 
 1. Server is running 
 2. Public IP Address with port (because public IP address can changes anytime)
+3. Server is offline
+
+### How to use :
+1. 
