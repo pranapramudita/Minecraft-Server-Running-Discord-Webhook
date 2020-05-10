@@ -5,7 +5,7 @@ import subprocess
 from discord_webhook import DiscordWebhook, DiscordEmbed
 
 # your webhook url here
-webhook_url = ""
+webhook_url = "https://discordapp.com/api/webhooks/709005830174933022/z58I_2SEdMXsEsMGT80QolRTdE4wFM1sIUL6sXqPShepRjyig6AsAZekgqi1E3CWc91U"
 
 port = str(25565) # your port forwarding
 ip_public = requests.get('http://ip.42.pl/raw').text # get ip public
