@@ -5,7 +5,7 @@ So basically, this thing only run the `server.jar` on [Minecraft: Java Edition S
 example of use: <br/>
 ![example of use](https://github.com/pranapramudita/Minecraft-Server-Running-Webhook/blob/master/example%20of%20use.JPG?raw=true)
 
-This thing is usefull to tell user that : 
+tell user : 
 1. Server is running 
 2. Public IP Address with port (because public IP address can changes anytime)
 3. Server is offline
